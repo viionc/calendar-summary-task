@@ -21,7 +21,6 @@ const CalendarSummary: React.FunctionComponent = () => {
                 try {
                     const data = await getCalendarEvents(newDay);
                     if (data && !dataLoaded) {
-                        console.log(data);
                         const dayData = createDayData(newDay, data);
                         setWeekData((prev) => [...prev, dayData]);
                     }
