@@ -13,6 +13,7 @@ const CalendarSummary: React.FunctionComponent = () => {
 
     useEffect(() => {
         let dataLoaded = false;
+        setError(null);
         const getCalendarData = async () => {
             for (let i = 0; i < NUMBER_OF_DAYS; i++) {
                 const newDay = new Date();
@@ -20,9 +21,9 @@ const CalendarSummary: React.FunctionComponent = () => {
                 try {
                     const data = await getCalendarEvents(newDay);
                     if (data && !dataLoaded) {
+                        console.log(data);
                         const dayData = createDayData(newDay, data);
                         setWeekData((prev) => [...prev, dayData]);
-                        setError(null);
                     }
                 } catch (err) {
                     setError("Couldn't fetch all of the data.");
@@ -44,7 +45,7 @@ const CalendarSummary: React.FunctionComponent = () => {
     return (
         <div>
             <h2>Calendar summary</h2>
-            {error ? <p>{error}</p> : <DataTable weekData={weekData} totalData={totalData}></DataTable>}
+            {<DataTable weekData={weekData} totalData={totalData} error={error}></DataTable>}
         </div>
     );
 };
