@@ -15,12 +15,12 @@ const CalendarSummary: React.FunctionComponent = () => {
         let dataLoaded = false;
         const getCalendarData = async () => {
             for (let i = 0; i < NUMBER_OF_DAYS; i++) {
-                const date = new Date();
-                date.setDate(date.getDate() + i);
+                const newDay = new Date();
+                newDay.setDate(newDay.getDate() + i);
                 try {
-                    const data = await getCalendarEvents(date);
+                    const data = await getCalendarEvents(newDay);
                     if (data && !dataLoaded) {
-                        const dayData = createDayData(date, data);
+                        const dayData = createDayData(newDay, data);
                         setWeekData((prev) => [...prev, dayData]);
                         setError(null);
                     }

@@ -1,6 +1,11 @@
 import {DayData} from "../helpers";
 
-function DataTable({weekData, totalData}: {weekData: DayData[]; totalData: DayData | null}) {
+interface DataTableProps {
+    weekData: DayData[];
+    totalData: DayData | null;
+}
+
+function DataTable({weekData, totalData}: DataTableProps) {
     return (
         <table>
             <tbody>
