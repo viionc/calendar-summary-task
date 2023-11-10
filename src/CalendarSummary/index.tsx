@@ -9,6 +9,7 @@ export interface DayData {
     totalDuration: number;
     longestEvent: CalendarEvent;
 }
+const NUMBER_OF_DAYS = 7;
 
 const getTotalData = (weekData: DayData[]): DayData => {
     const total: DayData = {date: "Total", numberOfEvents: 0, totalDuration: 0, longestEvent: {uuid: "", durationInMinutes: 0, title: ""}};
@@ -43,7 +44,7 @@ const CalendarSummary: React.FunctionComponent = () => {
     useEffect(() => {
         let dataLoaded = false;
         const getCalendarData = async () => {
-            for (let i = 0; i < 7; i++) {
+            for (let i = 0; i < NUMBER_OF_DAYS; i++) {
                 const date = new Date();
                 date.setDate(date.getDate() + i);
                 try {

@@ -1,4 +1,3 @@
-import React from "react";
 import {DayData} from "..";
 
 function DataTable({weekData, totalData}: {weekData: DayData[]; totalData: DayData | null}) {
