@@ -1,46 +1,65 @@
-# Getting Started with Create React App
+# Megaron S.A. — take-home recruitment task
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Hello and thank you for your interest in joining our team!
 
-## Available Scripts
+We've prepared a very brief development challenge designed to test your proficiency in the basics of JavaScript, TypeScript and React.
 
-In the project directory, you can run:
+The task shouldn't take more than an hour to complete.
 
-### `npm start`
+## Context
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+There's an event scheduling service that exposes an API. The API lists all events scheduled for a given day. The
+job of this app is to gather the event data and present a summary to the user.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+You *don't* need to access the service via HTTP. We've provided an API client stub — details below.
 
-### `npm test`
+### The API
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+`getCalendarEvents` is the only function in the API. You specify the day by passing a date and it returns a promise that
+resolves to an array of `CalendarEvent` objects.
 
-### `npm run build`
+```ts
+interface CalendarEvent {
+  uuid: string;
+  title: string;
+  durationInMinutes: number;
+}
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+function getCalendarEvents(day: Date): Promise<CalendarEvent[]>;
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The API client is located under `src/api-client`. Please do not modify it.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Your task
 
-### `npm run eject`
+Implement the `CalendarSummary` view. Its purpose is to display a table summarizing all the events scheduled for the **next 7 days**
+(including the current date). The summary should consist of:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- The number of events on a given day.
+- Total duration of all events on a given day (in minutes).
+- Title of the longest event of the day.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The last row should show the same kind of summary for the entire week.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+The table may look something like this:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+| Date       | Number of events | Total duration [min] | Longest event |
+| ---------- | ---------------: | -------------------: | ------------- |
+| 2023-11-10 |                7 |                  321 | Lorem ipsum   |
+| 2023-11-11 |                3 |                  123 | dolor sit     |
+| ...        |              ... |                  ... | ...           |
+| Total      |               26 |                 1230 | Lorem ipsum   |
 
-## Learn More
+## Setup
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This repository already contains all the boilerplate you need. Use `npm install` to install the dependencies and `npm start` to run the application.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+You may install additional npm packages if you deem it necessary.
+
+## Requirements
+
+- The app needs to run without any unhandled exceptions.
+- The app needs to display the summary table, as described above.
+- Make the code as clean and as readable as you can.
+
+### Good luck!
