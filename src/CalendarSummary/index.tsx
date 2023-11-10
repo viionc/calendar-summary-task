@@ -1,40 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {CalendarEvent, getCalendarEvents} from "../api-client";
+import {getCalendarEvents} from "../api-client";
 import "./index.module.css";
 import DataTable from "./components/DataTable";
+import {DayData, createDayData, getTotalData} from "./helpers";
 
-export interface DayData {
-    date: string;
-    numberOfEvents: number;
-    totalDuration: number;
-    longestEvent: CalendarEvent;
-}
 const NUMBER_OF_DAYS = 7;
-
-const getTotalData = (weekData: DayData[]): DayData => {
-    const total: DayData = {date: "Total", numberOfEvents: 0, totalDuration: 0, longestEvent: {uuid: "", durationInMinutes: 0, title: ""}};
-    weekData.forEach((day) => {
-        const {totalDuration, numberOfEvents, longestEvent} = day;
-        total.numberOfEvents += numberOfEvents;
-        total.totalDuration += totalDuration;
-        total.longestEvent = longestEvent.durationInMinutes > total.longestEvent.durationInMinutes ? longestEvent : total.longestEvent;
-    });
-    return total;
-};
-
-const createDayData = (date: Date, data: CalendarEvent[]): DayData => {
-    const dateString = `${date.getFullYear()}-${date.getMonth()}-${date.getUTCDate()}`;
-    const dayData: DayData = {
-        date: dateString,
-        numberOfEvents: data.length,
-        totalDuration: data.reduce((acc, cur) => {
-            return acc + cur.durationInMinutes;
-        }, 0),
-        longestEvent: data.sort((a, b) => b.durationInMinutes - a.durationInMinutes)[0],
-    };
-
-    return dayData;
-};
 
 const CalendarSummary: React.FunctionComponent = () => {
     const [weekData, setWeekData] = useState<DayData[]>([]);
@@ -52,6 +22,7 @@ const CalendarSummary: React.FunctionComponent = () => {
                     if (data && !dataLoaded) {
                         const dayData = createDayData(date, data);
                         setWeekData((prev) => [...prev, dayData]);
+                        setError(null);
                     }
                 } catch (err) {
                     setError("Couldn't fetch all of the data.");

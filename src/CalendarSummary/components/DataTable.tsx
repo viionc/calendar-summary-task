@@ -1,4 +1,4 @@
-import {DayData} from "..";
+import {DayData} from "../helpers";
 
 function DataTable({weekData, totalData}: {weekData: DayData[]; totalData: DayData | null}) {
     return (

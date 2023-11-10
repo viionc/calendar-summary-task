@@ -1,7 +1,7 @@
 import React, {ReactNode} from "react";
 
 interface Props {
-    fallback: string;
+    fallback: JSX.Element;
     children: ReactNode;
 }
 interface State {
