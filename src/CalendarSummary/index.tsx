@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {getCalendarEvents} from "../api-client";
 import "./index.module.css";
 import DataTable from "./components/DataTable";
-import {DayInformation, createDayData, getTotalData} from "./helpers";
+import {DayInformation, createDayData, getTotalData, toDateString} from "./helpers";
 
 // How many days we should fetch
 const NUMBER_OF_DAYS = 7;
@@ -16,7 +16,6 @@ const CalendarSummary: React.FunctionComponent = () => {
     useEffect(() => {
         // Flag for React Strict Mode
         let dataLoaded = false;
-        setError(null);
 
         const getCalendarData = async () => {
             if (dataLoaded) return;
@@ -31,9 +30,11 @@ const CalendarSummary: React.FunctionComponent = () => {
                     if (data) {
                         const dayData = createDayData(newDay, data);
                         result.push(dayData);
+                    } else {
+                        setError(`Couldn't fetch data for day ${toDateString(newDay)}`);
                     }
                 } catch (err) {
-                    setError("Couldn't fetch all of the data.");
+                    setError(`Couldn't fetch data for day ${toDateString(newDay)}`);
                 }
             }
             setWeekData(result);

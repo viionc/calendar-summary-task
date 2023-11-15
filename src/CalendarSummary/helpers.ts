@@ -7,6 +7,8 @@ export type DayInformation = {
     longestEvent: CalendarEvent;
 };
 
+export const toDateString = (date: Date) => `${date.getFullYear()}-${date.getMonth()}-${date.getUTCDate()}`;
+
 export const getTotalData = (weekData: DayInformation[]): DayInformation => {
     const total: DayInformation = {date: "Total", numberOfEvents: 0, totalDuration: 0, longestEvent: {uuid: "", durationInMinutes: 0, title: ""}};
     weekData.forEach((day) => {
@@ -23,7 +25,7 @@ export const getTotalData = (weekData: DayInformation[]): DayInformation => {
 };
 
 export const createDayData = (currentDate: Date, eventData: CalendarEvent[]): DayInformation => {
-    const dateString = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getUTCDate()}`;
+    const dateString = toDateString(currentDate);
 
     // Create new day object
     const dayInformation: DayInformation = {
