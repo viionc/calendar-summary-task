@@ -1,17 +1,19 @@
 import {CalendarEvent} from "../api-client";
 
-export type DayData = {
+export type DayInformation = {
     date: string;
     numberOfEvents: number;
     totalDuration: number;
     longestEvent: CalendarEvent;
 };
 
-export const getTotalData = (weekData: DayData[]): DayData => {
-    const total: DayData = {date: "Total", numberOfEvents: 0, totalDuration: 0, longestEvent: {uuid: "", durationInMinutes: 0, title: ""}};
+export const getTotalData = (weekData: DayInformation[]): DayInformation => {
+    const total: DayInformation = {date: "Total", numberOfEvents: 0, totalDuration: 0, longestEvent: {uuid: "", durationInMinutes: 0, title: ""}};
     weekData.forEach((day) => {
         const {totalDuration, numberOfEvents, longestEvent} = day;
+        // Check if Day Event is longer than what we had stored before
         const newLongestEvent = longestEvent.durationInMinutes > total.longestEvent.durationInMinutes ? longestEvent : total.longestEvent;
+        // Update total values
         total.numberOfEvents += numberOfEvents;
         total.totalDuration += totalDuration;
         total.longestEvent = newLongestEvent;
@@ -20,16 +22,18 @@ export const getTotalData = (weekData: DayData[]): DayData => {
     return total;
 };
 
-export const createDayData = (date: Date, data: CalendarEvent[]): DayData => {
-    const dateString = `${date.getFullYear()}-${date.getMonth()}-${date.getUTCDate()}`;
-    const dayData: DayData = {
+export const createDayData = (currentDate: Date, eventData: CalendarEvent[]): DayInformation => {
+    const dateString = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getUTCDate()}`;
+
+    // Create new day object
+    const dayInformation: DayInformation = {
         date: dateString,
-        numberOfEvents: data.length,
-        totalDuration: data.reduce((acc, cur) => {
+        numberOfEvents: eventData.length,
+        totalDuration: eventData.reduce((acc, cur) => {
             return acc + cur.durationInMinutes;
         }, 0),
-        longestEvent: data.sort((a, b) => b.durationInMinutes - a.durationInMinutes)[0],
+        longestEvent: eventData.sort((a, b) => b.durationInMinutes - a.durationInMinutes)[0],
     };
 
-    return dayData;
+    return dayInformation;
 };

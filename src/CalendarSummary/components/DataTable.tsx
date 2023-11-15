@@ -1,8 +1,8 @@
-import {DayData} from "../helpers";
+import {DayInformation} from "../helpers";
 
 interface DataTableProps {
-    weekData: DayData[];
-    totalData: DayData | null;
+    weekData: DayInformation[];
+    totalData: DayInformation | null;
     error: string | null;
 }
 
@@ -10,6 +10,7 @@ function DataTable({weekData, totalData, error}: DataTableProps) {
     return (
         <>
             {error ? <p>{error}</p> : null}
+
             <table>
                 <tbody>
                     <tr>
